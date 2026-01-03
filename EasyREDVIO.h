@@ -24,3 +24,26 @@ volatile uint32_t out_xor; // (GPIO offset 0x40) Output XOR (invert)
 // The 0x…U notation in 0x10012000U indicates an unsigned hexadecimal number
 #define GPIO0_BASE (0x10012000U) //Defines the starting address of the GPIO
 #define GPIO0 ((GPIO*) GPIO0_BASE) //then casts that address to a pointer to the GPIO struct
+#define INPUT 0
+#define OUTPUT 1
+void pinMode(int gpio_pin, int function) {
+switch(function) {
+case INPUT:
+GPIO0->input_en |= (1 << gpio_pin); // Sets a pin as an input
+GPIO0->output_en &= ~(1 << gpio_pin); // Disable output
+GPIO0->iof_en &= ~(1 << gpio_pin); // Disable IOF
+break;
+case OUTPUT:
+GPIO0->output_en |= (1 << gpio_pin); // Set pin as an output
+GPIO0->input_en &= ~(1 << gpio_pin); // Disable input
+GPIO0->iof_en &= ~(1 << gpio_pin); // Disable IOF
+break;
+    }
+}
+void digitalWrite(int gpio_pin, int val) {
+if (val) GPIO0->output_val |= (1 << gpio_pin);
+else GPIO0->output_val &= ~(1 << gpio_pin);
+}
+int digitalRead(int gpio_pin) {
+return (GPIO0->input_val >> gpio_pin) & 0x1;
+}
