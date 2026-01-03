@@ -1,6 +1,5 @@
 #include "EasyREDVIO.h"
 #include "Declarations.h"
-#include "Utils.c"
 // Arduino-like library for IO functions
 void delay(int ms){
 }
