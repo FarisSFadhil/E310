@@ -1,2 +1,2 @@
-# E310
+# FE310
 SparkFun RED-V Thing Plus
